@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { Account, AccountData } from './types'
 
@@ -6,7 +6,14 @@ export const useAccountsStore = defineStore(
   'accounts',
   () => {
     const accounts = ref<Account[]>([])
-    const lastAccountId = ref(0)
+    const newAccountId = computed(() => {
+      if (accounts.value.length === 0) {
+        return 1
+      }
+
+      const maxId = Math.max(...accounts.value.map((account) => account.id))
+      return maxId + 1
+    })
 
     function isLoginExist(data: AccountData, id: number | null) {
       if (accounts.value.length === 0) {
@@ -54,9 +61,8 @@ export const useAccountsStore = defineStore(
 
     function addAccount(data: AccountData) {
       if (isAccountDataValid(data, null)) {
-        lastAccountId.value++
         const newAccount = {
-          id: lastAccountId.value,
+          id: newAccountId.value,
           data,
         }
         accounts.value.push(newAccount)

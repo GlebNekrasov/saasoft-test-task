@@ -2,7 +2,8 @@ export type Tag = {
   text: string
 }
 
-export type RecordType = 'LDAP' | 'Локальная'
+export const RECORD_TYPE_VALUES = ['LDAP', 'Локальная'] as const
+export type RecordType = (typeof RECORD_TYPE_VALUES)[number]
 
 export type Account = {
   id: number
