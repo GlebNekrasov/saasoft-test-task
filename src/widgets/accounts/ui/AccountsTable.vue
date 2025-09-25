@@ -29,7 +29,7 @@
         <template v-else-if="column.dataIndex === 'login'">
           <Input
             :value="getCurrentLogin(record as AccountRow)"
-            :maxlength="50"
+            :maxlength="100"
             size="small"
             :status="
               record.id == null && draftErrors.login
@@ -44,7 +44,7 @@
         <template v-else-if="column.dataIndex === 'password'">
           <InputPassword
             :value="getCurrentPassword(record as AccountRow)"
-            :maxlength="50"
+            :maxlength="100"
             size="small"
             :status="
               record.id == null && draftErrors.password
@@ -371,7 +371,7 @@ function clearDraft() {
 
 function addDraftRow(): void {
   if (draftRows.value.length > 0) {
-    message.warning('Можно добавить только одну новую учетную запись')
+    message.warning('Завершите сохранение новой учетной записи перед тем, как создать еще одну')
     return
   }
   draftRows.value.push({
