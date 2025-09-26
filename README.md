@@ -1,6 +1,6 @@
 # .
 
-This template should help get you started developing with Vue 3 in Vite.
+Описание самого задания, по которому был выполнен проект: https://docs.google.com/document/d/1OiDtiniigc0ZX125e_wYZc8XxNz60u38MIt1GeALZuk/edit?tab=t.0
 
 ## Recommended IDE Setup
 
