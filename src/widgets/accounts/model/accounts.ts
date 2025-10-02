@@ -31,58 +31,74 @@ export const useAccountsStore = defineStore(
       return false
     }
 
-    function isAccountDataValid(data: AccountData, id: number | null) {
+    function isAccountDataValid(
+      data: AccountData,
+      id: number | null,
+    ): { isValid: boolean; errorMessage: string } {
       if (!data.login || (data.recordType === 'Локальная' && !data.password)) {
-        throw new Error('Заполнены не все обязательные поля')
+        return {
+          isValid: false,
+          errorMessage: 'Заполнены не все обязательные поля',
+        }
       }
 
       if (isLoginExist(data, id)) {
-        throw new Error('Такой логин уже существует')
+        return {
+          isValid: false,
+          errorMessage: 'Такой логин уже существует',
+        }
       }
 
-      return true
+      return {
+        isValid: true,
+        errorMessage: '',
+      }
     }
 
     function getAccountIndexById(id: number) {
-      if (accounts.value.length === 0) {
-        throw new Error('Такая учетная запись не найдена')
-      }
-
-      const accountIndex = accounts.value.findIndex((account) => {
+      return accounts.value.findIndex((account) => {
         return account.id === id
       })
-
-      if (accountIndex === -1) {
-        throw new Error('Такая учетная запись не найдена')
-      }
-
-      return accountIndex
     }
 
     function addAccount(data: AccountData) {
-      if (isAccountDataValid(data, null)) {
-        const newAccount = {
-          id: newAccountId.value,
-          data,
-        }
-        accounts.value.push(newAccount)
+      const { isValid, errorMessage } = isAccountDataValid(data, null)
+      if (!isValid) {
+        throw new Error(errorMessage)
       }
+
+      const newAccount = {
+        id: newAccountId.value,
+        data,
+      }
+      accounts.value.push(newAccount)
     }
 
     function removeAccount(id: number) {
       const removedAccountIndex = getAccountIndexById(id)
+      if (removedAccountIndex === -1) {
+        throw new Error('Такая учетная запись не найдена')
+      }
       accounts.value.splice(removedAccountIndex, 1)
     }
 
     function updateAccount(data: AccountData, id: number) {
+      const { isValid, errorMessage } = isAccountDataValid(data, id)
+      if (!isValid) {
+        throw new Error(errorMessage)
+      }
+
       const updatedAccountIndex = getAccountIndexById(id)
-      if (isAccountDataValid(data, id)) {
-        accounts.value[updatedAccountIndex].data = {
-          login: data.login,
-          password: data.password,
-          recordType: data.recordType,
-          tags: data.tags,
-        }
+
+      if (updatedAccountIndex === -1) {
+        throw new Error('Такая учетная запись не найдена')
+      }
+
+      accounts.value[updatedAccountIndex].data = {
+        login: data.login,
+        password: data.password,
+        recordType: data.recordType,
+        tags: data.tags,
       }
     }
 

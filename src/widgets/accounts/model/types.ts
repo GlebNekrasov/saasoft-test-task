@@ -16,3 +16,10 @@ export type AccountData = {
   recordType: RecordType
   tags: Tag[]
 }
+
+export type AccountDataKey = keyof AccountData
+
+export const ACCOUNT_DATA_LOGIN_KEY = 'login' as const satisfies AccountDataKey
+export const ACCOUNT_DATA_PASSWORD_KEY = 'password' as const satisfies AccountDataKey
+export const ACCOUNT_DATA_RECORD_TYPE_KEY = 'recordType' as const satisfies AccountDataKey
+export const ACCOUNT_DATA_TAGS_KEY = 'tags' as const satisfies AccountDataKey

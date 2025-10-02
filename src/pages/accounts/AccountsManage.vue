@@ -17,12 +17,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useTemplateRef } from 'vue'
 import AccountsTable from '@/widgets/accounts/ui/AccountsTable.vue'
 import { Button, TypographyText, TypographyTitle } from 'ant-design-vue'
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 
-const accountsTableRef = ref<InstanceType<typeof AccountsTable>>()
+const accountsTableRef = useTemplateRef('accountsTableRef')
 </script>
 
 <style scoped lang="less">
